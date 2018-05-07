@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>MitigationCreditDebit</title>
+    <style>
+        table{position:center; color:navy}
+        caption{text-align:center; text-shadow: 1px 1px 1px gray}
+        body{background-color:cornsilk}
+        img{position:relative }
+        h1{text-align:center; color:blue}
+        h4{text-align:center; color:brown}
+        p{text-align:left; color:black}
+        #image{position:center}
+        th{color:darkblue; text-align="center"}
+        input{position:center; padding:inherit; color:black; text-size-adjust:initial}
+        ul{position:center}
+
+        
+    </style>
+    <script type="text/javascript">
+
+
+function clearOutput(target)
+{
+    document.getElementById(target).innerHTML = "";
+}
+function addOutput(target,text)
+{
+    document.getElementById(target).innerHTML = document.getElementById(target).innerHTML + text;
+}
+function getTransactionInput(transaction)
+{
+    // How to get input from the page. Fetch the values from the input fields, and
+    // convert them to numbers if appropriate.
+
+	transaction.dacres = document.getElementById("transaction.dacres").value;
+	transaction.macres = Number(document.getElementById("transaction.macres").value);
+	transaction.multiplier = Number(document.getElementById("transaction.multiplier").value);
+	transaction.divider = Number(document.getElementById("transaction.divider").value);
+	transaction.pricepercredit = Number(document.getElementById("transaction.pricepercredit").value);
+}
+function calculateTransactionDebitCredit(transaction)
+{
+    // A sample calculation: compute the net credit of a debit and credit transaction.
+    // a credit balance and determine the dollar credit value of net credits.
+
+    transaction.debit = transaction.dacres * transaction.multiplier;
+    transaction.credit = transaction.macres / transaction.divider;
+   	transaction.netcredit = transaction.credit - transaction.debit;
+	transaction.creditvalue = transaction.pricepercredit * transaction.netcredit;
+}
+function displayTransaction(transaction)
+{
+    // How to write output to the page.  First we clear any output that's already there,
+    // in case the user has already hit "Calculate" one or more times.  Then we output
+    // each line to the "result" area of the page.
+
+    	clearOutput("result");
+    	addOutput("result","Net Credit is " + transaction.netcredit.toFixed(2) + "<br />");
+		addOutput("result","Credit Value"
+		+ " equals a total of $"
+		+ transaction.creditvalue.toFixed(2) + "<br />");
+}
+function calculate()
+{
+    var transaction = new Object();
+
+    getTransactionInput(transaction);
+    calculateTransactionDebitCredit(transaction);
+    displayTransaction(transaction);
+}
+    </script>
+</head>
+<body>
+    <a top="top"></a>
+    <form>
+        <fieldset>
+            <legend>Development Debit and  Compensatory Mitigation Credit Transactions</legend>
+            <hr />
+            <table border="1">
+                <tr>
+                    <th colspan="3">Calculate Credits and Debits</th>
+                </tr>
+                <tr>
+                    <td><img src="Image1.jpg" alt="Image1" border="2" width="550" height="350" /></td>
+                    <td><img src="Image2.jpg" alt="Image1" border="2" width="550" height="350" /></td>
+                    <td><img src="Image3.jpg" alt="Image1" border="2" width="550" height="350" /></td>
+                </tr>
+            </table>
+
+            <hr />
+
+
+            <h4>To determine net mitigation credit remaining and its credit dollar value from a debit/credit transaction, enter the information requested in each of the boxes below and press the calculate button.</h4>
+
+            <table border="1" align="center">
+                <caption>Mitigation Debit / Credit Transactions</caption>
+                <tbody>
+                    <tr>
+                        <th align="left">Development Acres:</th>
+                        <td><input id="transaction.dacres" value="10.00" type="text"></td>
+                    </tr>
+                    <tr>
+                        <th align="left">Mitigation Acres:</th>
+                        <td><input id="transaction.macres" value="10.00" type="text"></td>
+                    </tr>
+                    <tr>
+                        <th align="left">Development Multiplier:</th>
+                        <td><input id="transaction.multiplier" value="1.00" type="text"></td>
+                    </tr>
+                    <tr>
+                        <th align="left">Mitigation Divider:</th>
+                        <td><input id="transaction.divider" value="1.00" type="text"></td>
+                    </tr>
+                    <tr>
+                        <th align="left">Price Per Credit:</th>
+                        <td><input id="transaction.pricepercredit" value="100000.00" type="text"></td>
+                    </tr>
+                    <tr>
+                </tbody>
+            </table>
+            <hr />
+            <input value="CALCULATE" onclick="calculate();" align="center" type="button" size="18">
+            <hr>
+            <p id="result" align="center"></p>
+        </fieldset>
+    </form>
+    <form>
+        <fieldset>
+
+
+            <legend>Development Acres</legend>
+
+            <p>
+
+                This is the amount of acreage of a given natural resource type (e.g., frequent emergent wetland, wetgrass prairie, vernal pool, snowy plover breeding habitat,
+                etc.) that will be converted to alternative uses (e.g., housing sub-divisions, shopping malls, highway interchanges, etc).
+
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Mitigation Acres</legend>
+
+            <p>
+
+                This is the amount of acreage of a given parcel of land (often degraded farm land or open space) that will be converted to alternative uses (e.g., frequent
+                emergent wetland, wetgrass prairie, vernal pool, snowy plover breeding habitat, etc.) to off-set the loss of the same or similar resources somewhere else.
+
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Development Multiplier</legend>
+
+            <p>
+
+                This is an assigned number often representing the relative importance of a particular resource type.  Resources assigned high importance values
+                are assumed to require a proportionally greater number of acres to compensate for their loss. Factors that can affect the assignment
+                of resource value include but are not limited to: 1) scarcity in the landscape relative to historical extent, 2) time periods required to reach
+                a fully functioning condition, 3) importance to focal concerns (e.g., imperiled species, watershed TMDLs, aesthetic and recreational
+                opportunity, 4) the relative capability of a habitat unit to provide life-cycle requirements for a species, etc.). The acreage of a given development
+                site multiplied by its assigned development multiplier equals the amount of debit accrued by the development action and the amount of credit needed from
+                the mitigation site to off-set the debit.
+
+                <table border="1" align="center" cellpadding="10">
+                    <caption>Development Multiplier Values</caption>
+                    <tbody>
+                        <tr>
+                            <td align="left">High:</td>
+                            <td>4</td>
+                            <td align="left">Mediun-High:</td>
+                            <td>3</td>
+                            <td align="left">Medium:</td>
+                            <td>2</td>
+                            <td align="left">Low:</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+<a href="#top">Back to Top</a>
+            <p>If the development site is equal to 10-acres and the Development Multiplier is 2, then the number of debits is 20 (10 x 2).</p>
+
+            <p>
+
+                It should be noted here that mitigation "ratios" are often derived directly from ranking comparisons between development sites and compensatory mitigation sites.
+
+            </p>
+            <p>
+
+                For example if the relative value of the development site is 3 and the relative value of the mitigation site is 2, then the ratio applied to the
+                mitigation action is 3/2 or 1.5:1.  Under this principle it is also possible (and hopefully probable) that the development site may be lower value
+                than the mitigation site after the mitigation action is complete and meeting its performance objectives. For example, if the relative value of the
+                development site is 2 and the relative value of the mitigation site is 3, then the ratio aplied to the mitigation action is 2/3 or 0.67:1.  Since ratios
+                of < 1 result in a net loss of natural resource acres, many regulatory agencies have taken the option of imposing a minimum compensatory
+                mitigation ratio of 1 (also represented as 1:1).
+
+            </p>
+
+            <p>
+                It is my intent that future versions of this web site will be connected to a relational database management system (RDMS), possibly Microsoft SQL
+                Server, that will contain data, run queries, and generate reports that reflect known field conditions measured against both performance standard
+                criteria and functional assessment criteria and which will in turn be used to inform compensatory mitigation ratios and to model compensatory
+                mitigation outcomes.
+            </p>
+
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Mitigation Divider</legend>
+
+            <p>
+
+                This is an assigned number often representing the relative liklihood of mitigation success depending on the compensatory mitigation method(s) employed.
+                Methods that have a low track record of failure are generally assigned low mitigation dividers and those with a demonstrated high risk of failure are
+                typically given higher mitigation dividers. Also compensatory mitigation methods that result in 100% loss of resource acreage are often assigned higher
+                mitigation dividers. The acreage of a given mitigation site divided by its assigned mitigation divider equals the amount of credit available at that
+                mitigation site.
+
+                <table border="1" align="center" cellpadding="10">
+                    <caption>Mitigation Divider Values</caption>
+                    <tbody>
+                        <tr>
+                            <td align="left">High:</td>
+                            <td>4</td>
+                            <td align="left">Mediun-High:</td>
+                            <td>3</td>
+                            <td align="left">Medium:</td>
+                            <td>2</td>
+                            <td align="left">Low:</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+<a href="#top">Back to Top</a>
+            <p>If the mitigation site is equal to 10-acres and the mitigation divider is 2, then the number of credits available is 5 (10 / 2).</p>
+
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Price Per Credit</legend>
+
+            <p>
+
+                The "price per credit" is generally a free-market determined decision often based on the sale prices of credits in the general area being "serviced" by a
+                mitigation site.  Factors such as the monetary cost of producing a credit (e.g., costs of land acquisition, site-preparation, maintenance, long-term
+                endowments, etc.) combined with the prices of credits from competing mitigation providers have a relatively large influence on the price a credit is sold for.
+                These prices tend to vary temporally and spatially depending on such factors as supply and demand, the strength of the economy, and proximity to major
+                metropolitan areas.
+
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Calculator</legend>
+
+            <p>
+
+                There are a number of different perspectives from which this calculator can be viewed and subsequently used.  The three main perspectives are: 1) the
+                developer interested in knowing the amount and cost of mitigation required for one or more future planned development actions, 2) the mitigation provider
+                interested in the amount and monetary value of credit necessary to meet the market demands of their service area, or 3) the regulatory agency interested in
+                establishing a fair and equitable mitigation program for the regulated public while meeting the natural resource protection and recovery goals of one or
+                more natural resource agencies.
+
+            </p>
+            <p>
+
+                Two calculations are provided as output when the calculate button is selected: 1)The total amount of credit remaining after the debit has been subtracted from the
+                credit generated (credit - debit = amount of credit remaining) and 2) The monetary value of the remaining credit (amount of remaining credit x price per
+                credit = monetary value of remaining credit).
+
+            </p>
+            <p>
+
+                If you are using the calculator to determine the exact mitigation acreage needed to off-set a given development impact, use the following arithmetic:
+
+            <p>(Develpment Multiplier x Mitigation Divider) x Development Acres = Mitigation Acres</p>
+
+            <p>
+
+                This approach will always yield the exact amount of credit needed to satisfy a known debit and subsequently the mitigation credit remaining will always
+                calculate to '0' and the remaining monetary value of the credit will always calculate to '0' when the calculate button is selected. Positive outcomes indicate
+                surplus credit and negative outcomes indicate insufficient credit has been generated to meet the debit.  Feel free to try calculations using different
+                inputs that best suit your interests and/or curiosity.
+            </p>
+
+            </p>
+
+            <h5>
+
+                A precautionary note:  At this time, this calculator is intended for use only as a very generic tool to model highly simplified compensatory mitigation
+                actions and should not be considered to reflect the mitigation calculation approach of(or a surrogate for) any Federal or State regulatory agency, planning
+                body, or local government. Its only intended use at this time is for general educational purposes. Over the next year I will be attempting to "ramp-up" the
+                sophistication a bit but only as a private citizen and mainly to help motivate myself toward improving my knowledge and skills in the creation and use of web
+                based tools for natural resource education and management.
+
+            </h5>
+            <a href="#top">Back to Top</a>
+        </fieldset>
+        <fieldset>
+            <legend>Effective Ratios</legend>
+
+            <p>
+
+                The product of multiplying the development multiplier and the mitigation divider is called the "effective ratio."  An effective ratio is basically any ratio
+                that is developed using more than one set of principle criteria.  The effective ratio available for use in the calculator on this web page theoretically gives
+                regulatory agencies and resource managers choices for optimizing their recovery goals while at the same time providing some flexibility in shifting the financial
+                burden for resource recovery between compensatory mitigation providers and developers. This, of course, only holds true if the compensatory mitigation providers and
+                the developers are separate entities and the mitigation providers are selling credits in a competitive market, which is often not the case.  There is much
+                more to be said about effective ratios, but that will come later.
+
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Restoration and Creation</legend>
+
+            <p>
+
+                When restoration and creation are the methods of compensatory mitigation used, each mitigation transaction constitutes loss of acres (ratio < 1), no-net loss
+                of acres (ratio = 1), or net-gain of acres (ratio > 1) proportional to the ratios applied (these calculations do not necessarily reflect functional gains or
+                losses, just acreage).
+
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Preservation and Enhancement</legend>
+
+            <p>
+
+                When preservation and enhancement are the methods of compensatory mitigation used, each mitigation transaction constitutes 100% loss of acres, but larger
+                ratios protect more of the remaining acreage of concern for the same amounts of loss (these calculations do not necessarily reflect functional gains or losses, just
+                acreage). The way the arithmetic looks on these kinds of transactions is as follows:
+            </p>
+
+
+            <table border="1" align="center">
+                <caption>Preservation and Enhancement Mitigation Arithmetic</caption>
+                <tbody>
+                    <tr>
+                        <th align="left">One-to-One transforms to One-to-Two = 50-Percent Effective Ratio:</th>
+                        <td>(1.0/1.0 + 1.0) = 1.0/2.0 = .50 x 100 = 50%</td>
+                    </tr>
+                    <tr>
+                        <th align="left">One and One-half-to-One transforms to One and One-half-to-Two and One-half = 60-Percent Effective Ratio:</th>
+                        <td>(1.5/1.5 + 1.0) = 1.5/2.5 = .60 x 100 = 60%</td>
+                    </tr>
+                    <tr>
+                        <th align="left">Two-to-One transforms to Two-to-Three = 67-Percent Effective Ratio:</th>
+                        <td>(2.0/2.0 + 1.0) = 2.0/3.0 = .67 x 100 = 67%</td>
+                    </tr>
+                    <tr>
+                        <th align="left">Three-to-One transforms to Three-to-Four = 75-Percent Effective Ratio:</th>
+                        <td>(3.0/3.0 + 1.0) = 3.0/4.0 = .75 X 100 = 75%</td>
+                    </tr>
+                </tbody>
+            </table>
+           
+             <p>
+
+                So if you are planning to develop 10-acres at 1.5:1 ratio and preservation or enhancement is your strategy to replace the losses: The loss of existing habitat
+                is equal to 10-acres (100% loss) and the protection or enhancement is applied to 15-acres of already existing habitat (0% gain). The total transaction involves
+                25-acres (10-acres loss and 15-acres protected). 15-acres is 60% of 25-acres (the total transaction). For illustration purposes, say while using the above mitigation
+                ratio scenario exclusively, there are 2000 acres of a special type of habitat remaining (e.g. vernal pool wetlands) in a given ecoregion. If we were to lose habitat
+                to development proportional to this amount of protection at each compensatory mitigation transaction, over time and with each successive mitigation action you
+                should eventually be able to protect 1200-acres (60%) of the remaining habitat. 
+
+            </p>
+            <a href="#top">Back to Top</a>
+        </fieldset>
+        <fieldset>
+            
+                <hr>
+                <legend>Other Resources</legend>
+                <hr>
+            <ul>
+                <li><a href="Draftvegetationprotocol2.pdf">Vegetation Performance Standards</a></li>
+                <li><a href="LCRE_RIndex-LndCov7.pdf">Cumulative Impacts</a></li>
+                <li><a href="MarshallJ_G575FP.pdf">Plant Moisture and Weed Indexes</a></li>
+                <li><a href="MarshallJ_G575FPpp.pdf">Plant Moisture and Weed Indexes Presentation</a></li>
+                <li><a href="Marshall_GEOG589_FP.pdf">Wetland Boundary</a></li>
+                <li><a href="WillametteValley-WPRM.pdf">Ecosystem Restoration Modeling</a></li>
+                <li><a href="MarshallJ_Geog595FP.pdf">Context Sensitive Design</a></li>
+                <li><a href="EPA2010CS.pdf">Oregon Regulatory Compliance Monitoring</a></li>
+                <li><a href="VEG_Perf2_2011-12-05_2011-12-20.accdb">Vegetation Performance Database</a></li>
+				<li><a href="VEG_Perf2_2011-12-05_2011-12-20.accdr">Vegetation Performance Database - Fallback Case</a></li>
+                <li><a href="MarshallJ_AugmentRecovery.pdf">Recovery Augmentation</a></li>
+                <li><a href="SEEAccomplishments.pdf">Washington Compliance Inspection Work</a></li>
+                <li><a href="PugetSoundSEEPIM.pdf">Puget Sound Priority Inspection Model</a></li>
+				<li><a href="MarshallJ_OBennick_FinalReportGeog582.pdf">Renton, Washington Stormwater Treatment Opportunities</a></li>
+				<li><a href="MarshallJ_OBennick_FRpt.pdf">Renton, Washington Stormwater Treatment Opportunities Presentation</a></li>
+				<li><a href="MarshallJ_Geog517FD2_ResearchPAPER.pdf">Identification of Willamette Valley, Oregon Ecological Recovery Hot Spots</a></li>
+				<li><a href="MarshallJ_GEOG560_FinalProjRPT.pdf">Socio-Ecological Characterization and Mapping of Willamette Valley, Oregon Wet Prairie Recovery</a></li>
+				<li><a href="MarshallJ_Geog560FP.pdf">Socio-Ecological Characterization and Mapping of Willamette Valley, Oregon Wet Prairie Recovery Presentation</a></li>
+				<li><a href="myStatusReport2Draft1.pdf">An Evaluation of Open Space Opportunities in the Maple Valley, Washington Area</a></li>
+				<li><a href="MarshallJ_GEOG562_FRPT.pdf">An Evaluation on the Effects of Oyster Culture on Native Eelgrass in the Puget Sound, Washington</a></li>
+				<li><a href="OysterNativeEG.pdf">Presentation of Evaluation of Effects of Oyster Culture on Native Eelgrass in the Puget Sound, Washington</a></li>
+				<li><a href="DocScriptEditorV3App.pdf">Python Script Editor Application Development Project Documentation</a></li>
+				<li><a href="ScriptEditorV3.pdf">Python Script Editor Application Development Project Presentation</a></li>
+				<li><a href="ScriptEditorV3.exe">Python Script Editor Application Executable</a></li>
+				
+            </ul>
+        </fieldset>
+        <hr>
+        <div>
+
+            <h5>Code partially adapted from Marc Goodman's homework assignments and suggestions in 2012 Winter Term CIS 122 Software Design Class at Portland Community College and Lhoucine Zerrouki's 2015 Fall Term CSI-145 Web Design Course at Renton Technical College. Copyright [2014] [ESRI] Map Application Licensed under the Apache License, Version 2.0; you may not use the map file script except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</h5>
+
+        </div>
+       <br />
+            <hr />
+
+            John Marshall<br />
+            325 Factory Avenue North Apt# 6<br>
+            Renton, WA 98057<br>
+            503.913.1695<br>
+
+      
+
+        <a href="#top">Back to Top</a>
+    </form>
+</body>
+
+
+<body class="claro">
+    <div id="mapDiv"></div>
+</body>
+
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'a2plcpnl0577'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script><script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script></html>
+
+<title>Map Tool</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
+<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+<style>
+    html, body, #mapDiv {
+        padding: 15;
+        margin: 20;
+        height: 100%;
+    }
+</style>
+
+<script src="http://js.arcgis.com/3.8/"></script>
+<script>
+    var map;
+    require(["esri/map", "dojo/domReady!"], function (Map) {
+        map = new Map("mapDiv", {
+            center: [-56.049, 38.485],
+            zoom: 3,
+            basemap: "hybrid"
+        });
+    });
+</script>
